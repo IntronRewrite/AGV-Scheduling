@@ -14,21 +14,7 @@ To improve the efficiency of automated container terminals, optimizing the sched
 
 ## 2. Test
 
-AGV-Scheduling
-
-├─readme.md
-│  
-├─GA
-    ├─penaltyinf.m
-    ├─test.m
-│      
-├─HSPO
-    ├─penaltyinf.m
-    ├─test.m
-│      
-└─SA
-    ├─penaltyinf.m
-    ├─test.m
+![image-20240525154618007](./graphs/002.png)
 
 **Run test.m in matlab for testing and penaltyinf.m for test averages**
 
