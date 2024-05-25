@@ -6,13 +6,34 @@
 
 Jing Chwn, Weijie He , Chaolong Zhang, and Shuyue Wang
 
-## 1. **ABSTRACT** 
+## 1. **Abstract** 
 
 To improve the efficiency of automated container terminals, optimizing the scheduling of Automated Guided Vehicles (AGVs) is essential. Traditional AGV strategies often overlook the issue of empty runs. In contrast, our proposed model aims to minimize the empty runs of AGVs. This means each AGV unloads a container at the yard and immediately loads another container before returning to the quay. To ensure safe and efficient transportation, we employ a constraint penalty strategy to handle overweight container tasks. For the quay and the yard, we consider the vessel’s berthing time and the operational requirements of the yard, using time windows to define the loading and unloading sequence for each container. Early arrivals necessitate waiting, while delays affect overall terminal operations. Using a Genetic Algorithm (GA) with penalty functions, we solve the model, considering weight constraints for AGVs and time windows for loading and unloading tasks. By ensuring AGVs are fully loaded, we obtain the minimum operating time for AGVs and the optimal sequence for AGV operations.
 
-## **2. SIMULATIONS AND RESULTS**
+![image-20240525143856278](./graphs/image-001.png)
 
-### **TABLE 1.** Impact of different penalty coefficients on the number of non-compliant task points.
+## 2. Test
+
+AGV-Scheduling
+│  README.md
+│  
+├─GA
+│      penaltyinf.m
+│      test.m
+│      
+├─HSPO
+│      penaltyinf.m
+│      test.m
+│      
+└─SA
+        penaltyinf.m
+        test.m
+
+**Run test.m in matlab for testing and penaltyinf.m for test averages**
+
+## **3. Simulations and results**
+
+### **Table 1.** Impact of different penalty coefficients on the number of non-compliant task points.
 
 | Pf         | Pw       | Pql     | Pqr      | Py      | Nf    | Nw    | Nql   | Nqr   | Nyl   | Nyr    |
 | :--------- | :------- | :------ | :------- | :------ | :---- | :---- | :---- | :---- | :---- | :----- |
@@ -27,7 +48,7 @@ To improve the efficiency of automated container terminals, optimizing the sched
 | 1000000    | 10000    | 100     | 100000   | 1000    | 0.205 | 0.65  | 2.68  | 1.605 | 1.655 | 2.245  |
 | 1000000    | 10000    | 1000    | 10000    | 10000   | 2.715 | 0.845 | 2.65  | 0.82  | 1.13  | 0.555  |
 
-### **TABLE 2.** Impact of different penalty coefficients on fitness and runtime.
+### **Table 2.** Impact of different penalty coefficients on fitness and runtime.
 
 | Pf         | Pw       | Pql     | Pqr      | Py      | Optimized Fitness | Average Runtime |
 | ---------- | -------- | ------- | -------- | ------- | ----------------- | --------------- |
@@ -42,7 +63,7 @@ To improve the efficiency of automated container terminals, optimizing the sched
 | 1000000    | 10000    | 100     | 100000   | 1000    | 630248.8983       | 813.815         |
 | 1000000    | 10000    | 1000    | 10000    | 10000   | 3333070.5533      | 750.045         |
 
-### **TABLE 3.** Impact of different probability combinations on the number of non-compliant task points.
+### **Table 3.** Impact of different probability combinations on the number of non-compliant task points.
 
 | Pc   | Pm   | Pr   | Nf    | Nw    | Nql   | Nqr   | Nyl   | Nyr   |
 | ---- | ---- | ---- | ----- | ----- | ----- | ----- | ----- | ----- |
@@ -55,7 +76,7 @@ To improve the efficiency of automated container terminals, optimizing the sched
 | 0.9  | 0.9  | 0.9  | 0.015 | 0.785 | 1.45  | 1.505 | 1.63  | 2.535 |
 | 0.99 | 0.99 | 0.99 | 0     | 0.82  | 1.565 | 1.265 | 1.535 | 2.28  |
 
-### **TABLE 8.** Impact of different probability combinations on fitness and runtime.
+### **Table 8.** Impact of different probability combinations on fitness and runtime.
 
 | Pc   | Pm   | Pr   | Optimized Fitness | Average Runtime |
 | ---- | ---- | ---- | ----------------- | --------------- |
@@ -70,6 +91,6 @@ To improve the efficiency of automated container terminals, optimizing the sched
 
 
 
-## **3. CONCLUSIONS**
+## **3. Conclusions**
 
 To enhance the safety and transport efficiency of the terminal, our model aims to minimize the empty trip rate of AGVs by focusing on their operation at full capacity. We concentrate on the safe transport and efficiency of AGVs, striving to control overload situations and reduce operational time. We employ a Genetic Algorithm (GA) with penalty functions and design constraints including fully loaded constraints, weight restrictions, and time windows. Simulation results demonstrate that our algorithm ef-fectively addresses this issue and identifies the optimal transport sequence for AGVs. When compared with algorithms based on Hybrid Particle Swarm Optimization (HPSO) and Simulated Annealing (SA), GA exhibits superior performance. However, the model we established requires an equal number of containers to be unloaded and loaded. When encountering unequal situations, it is necessary to split them into several equally sized task groups for study to ensure the applicability and accuracy of the model. Moreover, this experiment involved three algorithms, and in the future, we will consider introducing more heuristic algorithms to improve the precision and efficiency of problem-solving.
