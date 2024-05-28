@@ -44,7 +44,7 @@ To enhance the safety and transport efficiency of the terminal, our model aims t
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/IntronRewrite/AGV-Scheduling.git
+   git clone https://github.com/Intron/AGV-Scheduling.git
    ```
 2. Navigate to the project directory:
    ```bash
