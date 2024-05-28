@@ -50,14 +50,7 @@ To enhance the safety and transport efficiency of the terminal, our model aims t
    ```
 3. Follow the instructions in the `setup.md` file to set up your environment and run the simulations.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Acknowledgments
 
 We would like to acknowledge the contributions of the College of Computer Science and Engineering, Shandong University of Science and Technology, for their support.
 
-## Contact
-
-For any questions or inquiries, please contact Jing Chen at jingchen@sdust.edu.cn.
