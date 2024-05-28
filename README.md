@@ -1,7 +1,20 @@
-
 # Efficient AGV Scheduling for Automated Container Terminals: Minimizing Empty Runs with Weight Constraints and Time Windows
 
 Jing Chen, Weijie He, Chaolong Zhang, and Shuyue Wang
+
+## Table of Contents
+
+1. [Abstract](#1-abstract)
+2. [Test](#2-test)
+3. [Simulations and Results](#3-simulations-and-results)
+   - [Technical Environment and Tools](#technical-environment-and-tools)
+   - [Simulation Setup](#simulation-setup)
+   - [Impact of Penalty Coefficients and Genetic Operators](#impact-of-penalty-coefficients-and-genetic-operators)
+     - [Impact of Penalty Coefficients on Experimental Results](#impact-of-penalty-coefficients-on-experimental-results)
+     - [Impact of Genetic Operators on Experimental Results](#impact-of-genetic-operators-on-experimental-results)
+   - [Verification of GA Performance](#verification-of-ga-performance)
+4. [Conclusions](#4-conclusions)
+5. [Acknowledgments](#5-acknowledgments)
 
 ## 1. Abstract
 
@@ -15,7 +28,7 @@ To improve the efficiency of automated container terminals, optimizing the sched
 
 ![Simulation Results](./graphs/002.png)
 
-**Run `test.m` in MATLAB for testing and `penaltyinf.m` for test averages**
+**Run `test.m` in MATLAB for testing**
 
 ## 3. Simulations and Results
 
@@ -30,29 +43,60 @@ Based on the actual conditions of the port, the number of quay cranes, AGV trave
 
 ### Impact of Penalty Coefficients and Genetic Operators
 
-Different penalty coefficients and genetic operators were tested to evaluate their impact on the experimental results. The findings demonstrate the significance of appropriate parameter settings in achieving optimal AGV scheduling results.
+#### Impact of Penalty Coefficients on Experimental Results
+
+Different penalty coefficients were tested to evaluate their impact on the experimental results. The findings demonstrate the significance of appropriate parameter settings in achieving optimal AGV scheduling results.
+
+| \(P_f\) | \(P_w\) | \(P_{ql}\) | \(P_{qr}\) | \(P_y\) | \(n_f\) | \(n_w\) | \(n_{ql}\) | \(n_{qr}\) | \(n_{yl}\) | \(n_{yr}\) | Optimized Fitness | Average Runtime | Processing Time (s) |
+|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|----------------|-----------------|-------------|
+| 1.0e6  | 1.0e4  | 1.0e3  | 1.0e4  | 1.0e3  | 0.105  | 0.565  | 1.525  | 2.06   | 1.455  | 3.035  | 425242.7117    | 814.2417        | 1540.263597 |
+| 1.0e5  | 1.0e3  | 1.0e2  | 1.0e3  | 1.0e2  | 0.030  | 0.730  | 1.52   | 2.705  | 1.38   | 3.44   | 41729.9633     | 825.7983        | 1737.224980 |
+| 1.0e4  | 1.0e2  | 1.0e1  | 1.0e2  | 1.0e1  | 0.030  | 0.700  | 1.55   | 2.075  | 1.44   | 3.03   | 4305.3067      | 804.5567        | 1634.771832 |
+| 1.0e7  | 1.0e5  | 1.0e4  | 1.0e5  | 1.0e4  | 0.030  | 0.72   | 1.47   | 2.455  | 1.405  | 3.375  | 3968388.915    | 823.4517        | 2129.333379 |
+| 1.0e8  | 1.0e6  | 1.0e5  | 1.0e6  | 1.0e5  | 0.060  | 0.685  | 1.53   | 2.42   | 1.465  | 3.26   | 41817978.8283  | 812.3217        | 2213.414671 |
+| 1.0e9  | 1.0e7  | 1.0e6  | 1.0e7  | 1.0e6  | 0.055  | 0.705  | 1.505  | 2.47   | 1.5    | 3.37   | 438122489.4967 | 825.62          | 1225.772694 |
+| 1.0e7  | 1.0e4  | 1.0e3  | 1.0e4  | 1.0e3  | 0.000  | 0.65   | 0.565  | 10.18  | 1.14   | 10.515 | 2847257.2817   | 1237.1817       | 2113.595202 |
+| 1.0e6  | 1.0e5  | 1.0e3  | 1.0e4  | 1.0e3  | 0.075  | 0.07   | 1.45   | 2.77   | 1.36   | 3.665  | 480097.395     | 830.0283        | 1235.725083 |
+| 1.0e6  | 1.0e4  | 1.0e2  | 1.0e5  | 1.0e3  | 0.205  | 0.65   | 2.68   | 1.605  | 1.655  | 2.245  | 630248.8983    | 813.815         | 1778.570927 |
+| 1.0e6  | 1.0e4  | 1.0e3  | 1.0e4  | 1.0e4  | 2.715  | 0.845  | 2.65   | 0.82   | 1.13   | 0.555  | 3333070.5533   | 750.045         | 2153.561441 |
+
+#### Impact of Genetic Operators on Experimental Results
+
+Different genetic operators were also tested to evaluate their impact on the experimental results. The findings demonstrate the significance of appropriate parameter settings in achieving optimal AGV scheduling results.
+
+| \(p_c\) | \(p_m\) | \(p_r\) | \(n_f\) | \(n_w\) | \(n_{ql}\) | \(n_{qr}\) | \(n_{yl}\) | \(n_{yr}\) | Optimized Fitness | Average Runtime | Processing Time (s) |
+|--------|--------|--------|--------|--------|--------|--------|--------|--------|-----------------|-----------------|-----------------|
+| 0.3    | 0.3    | 0.3    | 0.045  | 0.715  | 1.425  | 3.315  | 1.525  | 4.120  | 499690.5417     | 837.4133        | 1199.61         |
+| 0.4    | 0.4    | 0.4    | 0.030  | 0.715  | 1.535  | 2.630  | 1.480  | 3.550  | 430791.0217     | 829.4417        | 1226.37         |
+| 0.5    | 0.5    | 0.5    | 0.055  | 0.720  | 1.570  | 2.560  | 1.420  | 3.280  | 418680.35       | 828.2033        | 1226.59         |
+| 0.6    | 0.6    | 0.6    | 0.030  | 0.845  | 1.590  | 1.865  | 1.465  | 2.800  | 323858.4633     | 800.1567        | 1239.48         |
+| 0.7    | 0.7    | 0.7    | 0.000  | 0.815  | 1.485  | 2.005  | 1.520  | 2.865  | 302018.34       | 804.7383        | 1253.68         |
+| 0.8    | 0.8    | 0.8    | 0.010  | 0.705  | 1.620  | 1.635  | 1.555  | 2.645  | 292620.9717     | 790.4733        | 1281.24         |
+| 0.9    | 0.9    | 0.9    | 0.000  | 0.695  | 1.510  | 1.690  | 1.480  | 2.670  | 294271.0917     | 804.2817        | 1294.99         |
+| 0.99   | 0.99   | 0.99   | 0.045  | 0.820  | 1.590  | 1.420  | 1.625  | 2.470  | 301600.4967     | 797.355         | 1306.81         |
 
 ### Verification of GA Performance
 
 The performance of the GA was compared with Hybrid Particle Swarm Optimization (HPSO) and Simulated Annealing (SA) algorithms. The GA showed superior performance, particularly in scenarios with a higher number of task points.
+| Algorithms | \(n_f\) | \(n_w\) | \(n_{ql}\) | \(n_{qr}\) | \(n_{yl}\) | \(n_{yr}\) | Optimized Fitness | Average Runtime | Processing Time (s) |
+|------------|--------|--------|--------|--------|--------|--------|-----------------|-----------------|-----------------|
+| **12 task points** | | | | | | | | |
+| GA         | 0.000  | 0.035  | 0.000  | 0.250  | 1.000  | 0.500  | 52448.6617      | 401.995         | 1084.766480 |
+| HPSO       | 0.000  | 0.030  | 0.000  | 0.000  | 1.005  | 0.000  | 24931.0800      | 366.080         | 1768.407095 |
+| SA         | 0.000  | 0.300  | 0.000  | 1.655  | 1.000  | 2.700  | 329241.2917     | 544.625         | 1768.407095 |
+| **24 task points** | | | | | | | | |
+| GA         | 0.000  | 0.755  | 1.495  | 1.570  | 1.545  | 2.495  | 262806.2650     | 793.7067        | 1610.748516 |
+| HPSO       | 0.715  | 1.675  | 1.030  | 5.030  | 4.540  | 4.495  | 1657358.5500    | 780.2167        | 1768.407095 |
+| SA         | 1.090  | 0.575  | 1.130  | 8.610  | 0.335  | 7.485  | 1956089.0750    | 862.4083        | 1768.407095 |
+| **36 task points** | | | | | | | | |
+| GA         | 1.040  | 1.300  | 4.605  | 10.075 | 3.135  | 6.845  | 2039088.2133    | 1298.6033       | 2007.869260 |
+| HPSO       | 3.345  | 1.970  | 3.295  | 17.830 | 5.490  | 12.675 | 7543843.1933    | 1306.5267       | 2878.695749 |
+| SA         | 14.360 | 0.695  | 4.355  | 16.075 | 0.840  | 15.120 | 16658347.4050   | 1292.405        | 1768.407095 |
 
 ## 4. Conclusions
 
 To enhance the safety and transport efficiency of the terminal, our model aims to minimize the empty trip rate of AGVs by focusing on their operation at full capacity. We concentrate on the safe transport and efficiency of AGVs, striving to control overload situations and reduce operational time. We employ a Genetic Algorithm (GA) with penalty functions and design constraints including fully loaded constraints, weight restrictions, and time windows. Simulation results demonstrate that our algorithm effectively addresses this issue and identifies the optimal transport sequence for AGVs. When compared with algorithms based on Hybrid Particle Swarm Optimization (HPSO) and Simulated Annealing (SA), GA exhibits superior performance. However, the model we established requires an equal number of containers to be unloaded and loaded. When encountering unequal situations, it is necessary to split them into several equally sized task groups for study to ensure the applicability and accuracy of the model. Moreover, this experiment involved three algorithms, and in the future, we will consider introducing more heuristic algorithms to improve the precision and efficiency of problem-solving.
 
-## How to Use
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Intron/AGV-Scheduling.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd AGV-Scheduling
-   ```
-3. Follow the instructions in the `setup.md` file to set up your environment and run the simulations.
-
 ## Acknowledgments
 
 We would like to acknowledge the contributions of the College of Computer Science and Engineering, Shandong University of Science and Technology, for their support.
-
