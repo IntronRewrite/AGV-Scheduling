@@ -78,21 +78,17 @@ Different genetic operators were also tested to evaluate their impact on the exp
 ### Verification of GA Performance
 
 The performance of the GA was compared with Hybrid Particle Swarm Optimization (HPSO) and Simulated Annealing (SA) algorithms. The GA showed superior performance, particularly in scenarios with a higher number of task points.
-| Algorithms | \(n_f\) | \(n_w\) | \(n_{ql}\) | \(n_{qr}\) | \(n_{yl}\) | \(n_{yr}\) | Optimized Fitness | Average Runtime | Processing Time (s) |
-|------------|--------|--------|--------|--------|--------|--------|-----------------|-----------------|-----------------|
-| **12 task points** | | | | | | | | |
-| GA         | 0.000  | 0.035  | 0.000  | 0.250  | 1.000  | 0.500  | 52448.6617      | 401.995         | 1084.766480 |
-| HPSO       | 0.000  | 0.030  | 0.000  | 0.000  | 1.005  | 0.000  | 24931.0800      | 366.080         | 1768.407095 |
-| SA         | 0.000  | 0.300  | 0.000  | 1.655  | 1.000  | 2.700  | 329241.2917     | 544.625         | 1768.407095 |
-| **24 task points** |
-| GA         | 0.000  | 0.755  | 1.495  | 1.570  | 1.545  | 2.495  | 262806.2650     | 793.7067        | 1610.748516 |
-| HPSO       | 0.770  | 1.710  | 1.165  | 5.230  | 4.515  | 4.530  | 1740751.3817    | 794.0983        | 2943.605938 |
-| SA         | 0.095  | 0.595  | 1.425  | 3.425  | 1.350  | 3.925  | 579226.2617     | 864.595         | 1768.407095 |
-| **36 task points** |
-| GA         | 1.040  | 1.300  | 4.605  | 10.075 | 3.135  | 6.845  | 2039088.2133    | 1298.6033       | 2007.869260 |
-| HPSO       | 3.345  | 1.970  | 3.295  | 17.830 | 5.490  | 12.675 | 7543843.1933    | 1306.5267       | 2878.695749 |
-| SA         | 14.360 | 0.695  | 4.355  | 16.075 | 0.840  | 15.120 | 16658347.4050   | 1292.405        | 1768.407095 |
-
+| **Task Points**    | Algorithms | \(n_f\) | \(n_w\) | \(n_{ql}\) | \(n_{qr}\) | \(n_{yl}\) | \(n_{yr}\) | Optimized Fitness | Average Runtime | Processing Time (s) |
+|--------------------|------------|--------|--------|--------|--------|--------|--------|-----------------|-----------------|-----------------|
+| **12 Task Points** | GA         | 0.000  | 0.035  | 0.000  | 0.250  | 1.000  | 0.500  | 52448.6617      | 401.995         | 1084.766480 |
+|                    | HPSO       | 0.000  | 0.055  | 0.000  | 0.000  | 1.005  | 0.000  | 25461.1600      | 366.160         | 2147.757679 |
+|                    | SA         | 0.000  | 0.310  | 0.000  | 1.565  | 1.000  | 2.630  | 306869.3750     | 542.708         | 1275.348610 |
+| **24 task points** | GA         | 0.000  | 0.755  | 1.495  | 1.570  | 1.545  | 2.495  | 262806.2650     | 793.7067        | 1610.748516 |
+|                    | HPSO       | 0.770  | 1.710  | 1.165  | 5.230  | 4.515  | 4.530  | 1740751.3817    | 794.0983        | 2943.605938 |
+|                    | SA         | 0.095  | 0.595  | 1.425  | 3.425  | 1.350  | 3.925  | 579226.2617     | 864.595         | 2105.262004 |
+| **36 task points** | GA         | 1.040  | 1.300  | 4.605  | 10.075 | 3.135  | 6.845  | 2039088.2133    | 1298.6033       | 2007.869260 |
+|                    | HPSO       | 3.345  | 1.970  | 3.295  | 17.830 | 5.490  | 12.675 | 7543843.1933    | 1306.5267       | 2878.695749 |
+|                    | SA         | 14.360 | 0.695  | 4.355  | 16.075 | 0.840  | 15.120 | 16658347.4050   | 1292.405        | 1768.407095 |
 
 
 **Note:** This experiment was conducted using two different machines. As a result, the processing time may vary between machines. To obtain accurate experimental processing time, we reran the program. Therefore, there are minor discrepancies between the data in the GitHub tables and the results presented in the paper. Additionally, due to the nature of the Genetic Algorithm (GA), the results may slightly differ between experiments. Therefore, the provided runtime and result values are for reference only.
