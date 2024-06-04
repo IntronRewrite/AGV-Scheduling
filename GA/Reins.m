@@ -1,13 +1,23 @@
- %% 重插入子代的新种群
- %输入：
- %Chrom  父代的种群
- %SelCh  子代种群
- %ObjV   父代适应度
- %输出
- % Chrom  组合父代与子代后得到的新种群
-function Chrom=Reins(Chrom,SelCh,ObjV)
-NIND=size(Chrom,1);
-NSel=size(SelCh,1);
-ObjV = ObjV(:,1);
-[~,index]=sort(ObjV);
-Chrom=[Chrom(index(1:NIND-NSel),:);SelCh];
+function Chrom = Reins(Chrom, SelCh, ObjV)
+% Reinsert offspring into the new population
+% Inputs:
+% Chrom - Parent population
+% SelCh - Offspring population
+% ObjV - Fitness values of the parent population
+% Outputs:
+% Chrom - New population combining parents and offspring
+
+% Get the number of individuals in the parent and offspring populations
+NIND = size(Chrom, 1);
+NSel = size(SelCh, 1);
+
+% Extract the fitness values of the parent population
+ObjV = ObjV(:, 1);
+
+% Sort the parent population based on fitness values (ascending order)
+[~, index] = sort(ObjV);
+
+% Combine the top individuals from the parent population with the offspring
+Chrom = [Chrom(index(1:NIND-NSel), :); SelCh];
+
+end
