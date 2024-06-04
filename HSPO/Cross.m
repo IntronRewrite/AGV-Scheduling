@@ -1,23 +1,36 @@
-function New = Cross(New,Cur)
-%%交叉操作
-% 输入
-%New 个体值
-%Cur 当前最优值
-% 输出
-% New 交叉后的个体值
+function New = Cross(New, Cur)
+% Crossover operation
+% Inputs:
+% New - New individual values
+% Cur - Current best values
+% Outputs:
+% New - Individual values after crossover
 
-[cow,rol] = size(New);
+% Get the size of the New matrix
+[cow, rol] = size(New);
+
+% Perform crossover for each individual
 for i = 1:cow
-    c1 = unidrnd(rol-1);
-    c2 = unidrnd(rol-1);%产生交叉位
-    while c1==c2
-        c1 = unidrnd(rol-1);
-        c2 = unidrnd(rol-1);
+    % Generate two different crossover points
+    c1 = unidrnd(rol - 1);
+    c2 = unidrnd(rol - 1);
+    while c1 == c2
+        c1 = unidrnd(rol - 1);
+        c2 = unidrnd(rol - 1);
     end
-    st = min(c1,c2);
-    ed = max(c1,c2);
-    cros = Cur(i,st:ed);
-    temp = setdiff(New(i,:),cros,'stable');
-    temp = [temp cros];
-    New(i,:) = temp;               
+    
+    % Determine the start and end points for crossover
+    st = min(c1, c2);
+    ed = max(c1, c2);
+    
+    % Extract the crossover segment from the current best values
+    cros = Cur(i, st:ed);
+    
+    % Remove the crossover segment from the new individual and append the segment
+    temp = setdiff(New(i, :), cros, 'stable');
+    temp = [temp, cros];
+    
+    % Update the new individual with the crossover result
+    New(i, :) = temp;               
+end
 end
