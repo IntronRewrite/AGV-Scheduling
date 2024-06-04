@@ -1,103 +1,120 @@
-clear
-clc
-close all
-tic
-%%初始化参数
-load Pos;%位置矩阵
-load X;%卸箱任务点及时间窗
-load Y;%装箱任务点及时间窗
-load Tlast;%AGV返回时间
-m = size(Tlast,1);%AGV数目
-tload = 120;%AGV装箱时间
-v = 6;%AGV运行速度
-pop = 1;%初始化种群数目
-pf = 1000000;%满载惩罚因子
-pw = 10000;%重量惩罚因子
-pql = 1000;%岸桥最早惩罚因子
-pqr = 10000;%岸桥最晚惩罚因子
-py = 1000;%场桥惩罚因子
-maxgen = 200;%迭代次数
-t0 = 2000;%初始温度
-tend = 1e-3;%终止温度
-loop = 200;%迭代次数 链长
-tv = 0.9;%降温速率
-num_experiments = 200; % 实验次数
-Path_SA = inf(400,1); % 存储最好的路径
-total_points_unsatisfied = zeros(num_experiments, 7); % 存储每次实验中不满足条件的任务点个数
-total_times = zeros(num_experiments, 1);% 存储每次实验中的总时间
+clear;
+clc;
+close all;
+tic;
+
+%% Initialize parameters
+load Pos; % Position matrix
+load X; % Unloading task points and time windows
+load Y; % Loading task points and time windows
+load Tlast; % AGV return time
+
+m = size(Tlast, 1); % Number of AGVs
+tload = 120; % Loading time for AGV
+v = 6; % AGV speed
+pop = 1; % Initial population size for simulated annealing
+pf = 1000000; % Full load penalty factor
+pw = 10000; % Weight penalty factor
+pql = 1000; % Earliest quay crane penalty factor
+pqr = 10000; % Latest quay crane penalty factor
+py = 1000; % Yard crane penalty factor
+maxgen = 200; % Number of iterations
+t0 = 2000; % Initial temperature
+tend = 1e-3; % End temperature
+loop = 200; % Number of iterations per temperature (chain length)
+tv = 0.9; % Cooling rate
+num_experiments = 200; % Number of experiments
+Path_SA = inf(400, 1); % Store the best path
+total_points_unsatisfied = zeros(num_experiments, 7); % Store the number of unsatisfied task points in each experiment
+total_times = zeros(num_experiments, 1); % Store the total time in each experiment
+
 for exp_index = 1:num_experiments
-    %%模拟退火
-    %%编码映射
-    t0 = 2000;%初始温度
-    tend = 1e-3;%终止温度
-    Map = [X;Y];
-    Xmat=X;
-    Ymat=Y;
-    Xmat(:,1) = 1:size(Xmat,1);
-    Ymat(:,1) = 1+size(Xmat,1):size(Xmat,1)+size(Ymat,1);
-    %%构造初始解
-    S1 = InitPop(X,Y,m,pop);
-    [cow,rol] = size(S1);
-    %%计算适应度
-    FitnV = Fitness(S1,Pos,Xmat,Ymat,Map,Tlast,pf,pw,pql,pqr,py,tload,v);
-    %%计算迭代次数
-    syms x;
-    time=ceil(double(solve(t0*(tv)^x == tend,x)));
-    count = 0;%迭代次数
-    Ans = zeros(time,1); %目标矩阵初始化
-    Track = zeros(time,rol); %每代最优路线矩阵初始化
-    bestans = ones(1,7);%保留最佳适应度值
+    %% Simulated Annealing
+    % Encode mapping
+    Map = [X; Y];
+    Xmat = X;
+    Ymat = Y;
+    Xmat(:, 1) = 1:size(Xmat, 1);
+    Ymat(:, 1) = 1 + size(Xmat, 1):size(Xmat, 1) + size(Ymat, 1);
     
-    %%优化
-    while t0>tend
+    % Construct initial solution
+    S1 = InitPop(X, Y, m, pop);
+    [cow, rol] = size(S1);
+    
+    % Calculate fitness
+    FitnV = Fitness(S1, Pos, Xmat, Ymat, Map, Tlast, pf, pw, pql, pqr, py, tload, v);
+    
+    % Calculate number of iterations
+    syms x;
+    time = ceil(double(solve(t0 * (tv)^x == tend, x)));
+    count = 0; % Iteration count
+    Ans = zeros(time, 1); % Initialize objective matrix
+    Track = zeros(time, rol); % Initialize the best route matrix for each generation
+    bestans = ones(1, 7); % Retain the best fitness values
+    
+    %% Optimization
+    while t0 > tend
         count = count + 1;
-        temp = zeros(loop,rol+1);
-        RR=zeros(loop,7);
+        temp = zeros(loop, rol + 1);
+        RR = zeros(loop, 7);
+        
         for k = 1:loop
-            %%产生新解
+            %% Generate new solution
             S = NewAnswer(S1);
-            %% Metropolis法则判断是否接受新解
-            FitS1 = Fitness(S1,Pos,Xmat,Ymat,Map,Tlast,pf,pw,pql,pqr,py,tload,v);
-            FitS = Fitness(S,Pos,Xmat,Ymat,Map,Tlast,pf,pw,pql,pqr,py,tload,v);
-            [S1,R] = Metropolis(FitS,FitS1,S,S1,t0);
-            RR(k,:)=R;
-            temp(k,:)= [S1 R(1)]; %记录下一路线的及其路程
+            
+            %% Use Metropolis criterion to determine if the new solution is accepted
+            FitS1 = Fitness(S1, Pos, Xmat, Ymat, Map, Tlast, pf, pw, pql, pqr, py, tload, v);
+            FitS = Fitness(S, Pos, Xmat, Ymat, Map, Tlast, pf, pw, pql, pqr, py, tload, v);
+            [S1, R] = Metropolis(FitS, FitS1, S, S1, t0);
+            RR(k, :) = R;
+            temp(k, :) = [S1 R(1)]; % Record the next route and its distance
         end
-        [d0,index] = min(temp(:,end));%当前温度最优路线
-        if count ==1 || d0<Ans(count-1)
-            Ans(count)=d0;
-            bestans = RR(index,:);
+        
+        [d0, index] = min(temp(:, end)); % The best route at the current temperature
+        
+        if count == 1 || d0 < Ans(count - 1)
+            Ans(count) = d0;
+            bestans = RR(index, :);
         else
-            Ans(count)=Ans(count-1);
+            Ans(count) = Ans(count - 1);
         end
-        Track(count,:)=temp(index,1:end-1);%记录当前温度最优路线
-        t0 = tv*t0;%降温
+        
+        Track(count, :) = temp(index, 1:end-1); % Record the best route at the current temperature
+        t0 = tv * t0; % Cooling
     end
-    %% 更新最好的适应度和路径
+    
+    %% Update the best fitness and path
     if min(Ans) < min(Path_SA)
         Path_SA = Ans;
     end
-    %% 统计不满足条件的任务点个数
-    [~,index] = min(Ans(:,1)); % 找到具有最小适应度值的染色体的索引
-    total_points_unsatisfied(exp_index, :) = bestans(1:7); % 将该染色体的不满足条件的任务点个数存储到 total_points_unsatisfied 中
-    %% 计算总时间并存储
-    caroads = Outputroads(Track(index,:),Xmat,Ymat,Map,Tlast);
-    [time,~,~] = costime(caroads,Xmat,Ymat,Map,Tlast,Pos,tload,v,pql,pqr,py);
+    
+    %% Count the number of unsatisfied task points
+    [~, index] = min(Ans(:, 1)); % Find the index of the chromosome with the minimum fitness value
+    total_points_unsatisfied(exp_index, :) = bestans(1:7); % Store the number of unsatisfied task points
+    
+    %% Calculate and store total time
+    caroads = Outputroads(Track(index, :), Xmat, Ymat, Map, Tlast);
+    [time, ~, ~] = costime(caroads, Xmat, Ymat, Map, Tlast, Pos, tload, v, pql, pqr, py);
     total_times(exp_index) = time;
+    
+    % Clear temporary variables
     Ans = [];
     bestans = [];
     Track = [];
 end
-%% 计算平均值
+
+%% Calculate averages
 average_unsatisfied_points = mean(total_points_unsatisfied);
 average_total_time = mean(total_times);
-disp(['平均总时间：',num2str(average_total_time)])
-disp(['优化后种群平均适应度：', num2str(average_unsatisfied_points(1))])
-disp(['平均不满足满载限制任务点个数：', num2str(average_unsatisfied_points(6))])
-disp(['平均不满足重量限制条件任务点个数：', num2str(average_unsatisfied_points(7))])
-disp(['平均不满足岸桥最早时间的任务点个数：', num2str(average_unsatisfied_points(5))])
-disp(['平均不满足岸桥最晚时间的任务点个数：', num2str(average_unsatisfied_points(3))])
-disp(['平均不满足场桥最早时间的任务点个数：', num2str(average_unsatisfied_points(4))])
-disp(['平均不满足场桥最晚时间的任务点个数：', num2str(average_unsatisfied_points(2))])
+
+disp(['Average total time: ', num2str(average_total_time)]);
+disp(['Average optimized population fitness: ', num2str(average_unsatisfied_points(1))]);
+disp(['Average number of tasks not satisfying full load constraint: ', num2str(average_unsatisfied_points(6))]);
+disp(['Average number of tasks not satisfying weight constraint: ', num2str(average_unsatisfied_points(7))]);
+disp(['Average number of tasks not satisfying earliest quay crane time: ', num2str(average_unsatisfied_points(5))]);
+disp(['Average number of tasks not satisfying latest quay crane time: ', num2str(average_unsatisfied_points(3))]);
+disp(['Average number of tasks not satisfying earliest yard crane time: ', num2str(average_unsatisfied_points(4))]);
+disp(['Average number of tasks not satisfying latest yard crane time: ', num2str(average_unsatisfied_points(2))]);
+
 save('Path_SA.mat', 'Path_SA');
-toc
+toc;
