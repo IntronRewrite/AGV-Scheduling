@@ -1,31 +1,50 @@
-function overweight = overwcount(caroads,X,Y,Tlast)
-%%计算超重数量
-%输入
-%输出
-wrongcountw=0;
-rowcar = size(caroads,1);%AGV数目
-Weightx = X(:,6);%卸箱任务点集装箱重量
-Weighty = Y(:,6);%卸箱任务点集装箱重量
-limit = Tlast(:,2);
-X = X(:,1);
-Y = Y(:,1);
+function overweight = overwcount(caroads, X, Y, Tlast)
+% Calculate the number of overweight occurrences
+% Inputs:
+% caroads - AGV paths
+% X - Unloading task points
+% Y - Loading task points
+% Tlast - AGV constraints, including weight limits
+% Outputs:
+% overweight - Number of overweight occurrences
+
+% Initialize the overweight count
+wrongcountw = 0;
+
+% Get the number of AGVs
+rowcar = size(caroads, 1);
+
+% Extract container weights and weight limits
+Weightx = X(:, 6); % Container weight at unloading points
+Weighty = Y(:, 6); % Container weight at loading points
+limit = Tlast(:, 2); % Weight limits for AGVs
+
+% Extract task point IDs
+X = X(:, 1);
+Y = Y(:, 1);
+
+% Calculate the number of overweight occurrences for each AGV path
 for i = 1:rowcar
     roads = caroads{i};
-    if isempty(roads)%判断非空
+    if isempty(roads) % Check if the path is empty
         continue
     end
-    len = size(roads,2);%计算路径任务点个数
+    len = size(roads, 2); % Length of the task sequence in the path
     for j = 1:len
-        %计算重量影响
-        if ismember(roads(j),X)%如果是卸箱任务点
+        % Calculate the impact of weight
+        if ismember(roads(j), X) % If it is an unloading task point
             if limit(i) < Weightx(roads(j))
-                wrongcountw = wrongcountw +1;
+                wrongcountw = wrongcountw + 1;
             end
-        else 
-            if limit(i) < Weighty(roads(j)-12)
-                wrongcountw = wrongcountw +1;
+        else % If it is a loading task point
+            if limit(i) < Weighty(roads(j) - length(X)) % Adjust index for loading points
+                wrongcountw = wrongcountw + 1;
             end
         end
     end
 end
-overweight=wrongcountw;
+
+% Return the total number of overweight occurrences
+overweight = wrongcountw;
+
+end
