@@ -37,7 +37,7 @@ for i = 1:car
         end
     end
     
-    % Check if the length of the path is odd, indicating a load at the end
+    % Check if the length of the path is odd
     if mod(len, 2) == 1
         unlilo = unlilo + 1;
     end
