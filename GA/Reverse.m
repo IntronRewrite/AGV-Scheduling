@@ -1,22 +1,30 @@
-%% 进化逆转函数
-% 输入
-% SelCh 被选择的个体
-% pr 逆转概率
-% 输出
-% SelCh1 进化逆转后的个体
 function SelCh1 = Reverse(SelCh, pr)
+% Reverse mutation function
+% Inputs:
+% SelCh - Selected individuals
+% pr - Probability of reversal
+% Outputs:
+% SelCh1 - Individuals after evolutionary reversal
+
+% Get the number of rows and columns in SelCh
 [row, col] = size(SelCh);
+% Initialize the output as a copy of the input
 SelCh1 = SelCh;
+
 for i = 1:row
-    % 根据概率决定是否进行逆转操作
+    % Decide whether to perform reversal based on probability
     if rand() < pr
-        % 随机选择两个位置
-        r1 = randsrc(1, 1, [1:col]);  % 随机选择一个位置
-        r2 = randsrc(1, 1, [1:col]);  % 随机选择另一个位置
-        % 确保r1小于等于r2
-        mininverse = min([r1 r2]);
-        maxinverse = max([r1 r2]);
-        % 将选定位置之间的部分逆转
+        % Randomly select two positions
+        r1 = randsrc(1, 1, [1:col]);
+        r2 = randsrc(1, 1, [1:col]);
+        
+        % Ensure r1 is less than or equal to r2
+        mininverse = min([r1, r2]);
+        maxinverse = max([r1, r2]);
+        
+        % Reverse the segment between the selected positions
         SelCh1(i, mininverse:maxinverse) = SelCh1(i, maxinverse:-1:mininverse);
     end
+end
+
 end
