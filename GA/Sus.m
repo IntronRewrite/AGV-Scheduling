@@ -1,27 +1,27 @@
-% 输入:
-%FitnV  个体的适应度值
-%Nsel   被选择个体的数目
-% 输出:
-%NewChrIx  被选择个体的索引号
-function NewChrIx = Sus(FitnV,Nsel)
+function NewChrIx = Sus(FitnV, Nsel)
+% Stochastic Universal Sampling (SUS) function
+% Inputs:
+% FitnV - Fitness values of individuals
+% Nsel - Number of individuals to select
+% Outputs:
+% NewChrIx - Indices of selected individuals
 
 % Identify the population size (Nind)
-   [Nind,ans] = size(FitnV);
+[Nind, ~] = size(FitnV);
 
 % Perform stochastic universal sampling
-   cumfit = cumsum(FitnV);
-   trials = cumfit(Nind) / Nsel * (rand + (0:Nsel-1)');
-   Mf = cumfit(:, ones(1, Nsel));
-   Mt = trials(:, ones(1, Nind))';
-   [NewChrIx, ans] = find(Mt < Mf & [ zeros(1, Nsel); Mf(1:Nind-1, :) ] <= Mt);
+cumfit = cumsum(FitnV); % Cumulative fitness values
+trials = cumfit(Nind) / Nsel * (rand + (0:Nsel-1)'); % Generate equally spaced points
 
-% Shuffle new population
-   [ans, shuf] = sort(rand(Nsel, 1));
-   NewChrIx = NewChrIx(shuf);
+% Replicate the cumulative fitness values and trials for comparison
+Mf = cumfit(:, ones(1, Nsel));
+Mt = trials(:, ones(1, Nind))';
 
+% Find the indices of the selected individuals
+[NewChrIx, ~] = find(Mt < Mf & [zeros(1, Nsel); Mf(1:Nind-1, :)] <= Mt);
 
-% End of function
-
+% Shuffle the new population
+[~, shuf] = sort(rand(Nsel, 1));
+NewChrIx = NewChrIx(shuf);
 
-
-
+end
