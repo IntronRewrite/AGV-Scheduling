@@ -1,14 +1,22 @@
-%% 变异操作
-%输入：
-%SelCh  被选择的个体
-%Pm     变异概率
-%输出：
-% SelCh 变异后的个体
-function SelCh=Mutate(SelCh,Pm)
-[NSel,L]=size(SelCh);
-for i=1:NSel
-    if Pm>=rand
-        R=randperm(L);
-        SelCh(i,R(1:2))=SelCh(i,R(2:-1:1));
+function SelCh = Mutate(SelCh, Pm)
+% Mutation operation
+% Inputs:
+% SelCh - Selected individuals for mutation
+% Pm - Mutation probability
+% Outputs:
+% SelCh - Mutated individuals
+
+% Get the number of selected individuals and their length
+[NSel, L] = size(SelCh);
+
+% Perform mutation for each individual
+for i = 1:NSel
+    % Check if mutation should be applied
+    if Pm >= rand
+        % Generate a random permutation of indices
+        R = randperm(L);
+        % Swap two randomly chosen genes
+        SelCh(i, R(1:2)) = SelCh(i, R(2:-1:1));
     end
+end
 end
