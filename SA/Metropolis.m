@@ -1,20 +1,26 @@
-function [S,R] = Metropolis(FS,FS1,S,S1,T)
-%% 输入
-% FS： 原有解的适应度
-% FS1: 扰动新解的适应度
-% S:   原有解   
-% S1:  新解
-% T:   当前温度
-%% 输出
-% S：   下一个当前解
-% R：   下一个当前解的路线距离
+function [S, R] = Metropolis(FS, FS1, S, S1, T)
+% Metropolis criterion for simulated annealing
+% Inputs:
+% FS - Fitness of the current solution
+% FS1 - Fitness of the perturbed new solution
+% S - Current solution
+% S1 - New solution
+% T - Current temperature
+% Outputs:
+% S - Next current solution
+% R - Fitness of the next current solution
 
+% Calculate the change in fitness
 dC = FS(1) - FS1(1);
-if dC<0
-    R = FS;
-elseif exp(-dC/T)>=rand
-    R = FS;
+
+% Apply the Metropolis criterion
+if dC < 0
+    R = FS; % Retain the current solution
+elseif exp(-dC / T) >= rand
+    R = FS; % Accept the new solution probabilistically
 else
-    S = S1;
-    R = FS1;
+    S = S1; % Update to the new solution
+    R = FS1; % Update the fitness to the new solution's fitness
+end
+
 end
