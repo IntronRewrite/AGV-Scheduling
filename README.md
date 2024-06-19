@@ -6,15 +6,16 @@ Jing Chen, Weijie He, Chaolong Zhang, and Shuyue Wang
 
 1. [Abstract](#1-abstract)
 2. [Test](#2-test)
-3. [Simulations and Results](#3-simulations-and-results)
+3. [GA Algorithm with Penalty Function](#3-GA-algorithm-with-penalty-function)
+4. [Simulations and Results](#4-simulations-and-results)
    - [Technical Environment and Tools](#technical-environment-and-tools)
    - [Simulation Setup](#simulation-setup)
    - [Impact of Penalty Coefficients and Genetic Operators](#impact-of-penalty-coefficients-and-genetic-operators)
      - [Impact of Penalty Coefficients on Experimental Results](#impact-of-penalty-coefficients-on-experimental-results)
      - [Impact of Genetic Operators on Experimental Results](#impact-of-genetic-operators-on-experimental-results)
    - [Verification of GA Performance](#verification-of-ga-performance)
-4. [Conclusions](#4-conclusions)
-5. [Acknowledgments](#5-acknowledgments)
+5. [Conclusions](#5-conclusions)
+6. [Acknowledgments](#6-acknowledgments)
 
 ## 1. Abstract
 
@@ -34,8 +35,6 @@ To improve the efficiency of automated container terminals, optimizing the sched
 <div style="text-align: center;">
     <img src="./graphs/003.png" alt="The flowchart of algorithm" width="400"/>
 </div>
-
-
 
 ## 4. Simulations and Results
 
@@ -101,7 +100,7 @@ The performance of the GA was compared with Hybrid Particle Swarm Optimization (
 **Note:** This experiment was conducted using two different machines. As a result, the processing time may vary between machines. To obtain accurate experimental processing time, we reran the program. Therefore, there are minor discrepancies between the data in the GitHub tables and the results presented in the paper. Additionally, due to the nature of the Genetic Algorithm (GA), the results may slightly differ between experiments. Therefore, the provided runtime and result values are for reference only.
 
 
-## 4. Conclusions
+## 5. Conclusions
 
 To enhance the safety and transport efficiency of the terminal, our model aims to minimize the empty trip rate of AGVs by focusing on their operation at full capacity. We concentrate on the safe transport and efficiency of AGVs, striving to control overload situations and reduce operational time. We employ a Genetic Algorithm (GA) with penalty functions and design constraints including fully loaded constraints, weight restrictions, and time windows. Simulation results demonstrate that our algorithm effectively addresses this issue and identifies the optimal transport sequence for AGVs. When compared with algorithms based on Hybrid Particle Swarm Optimization (HPSO) and Simulated Annealing (SA), GA exhibits superior performance. However, the model we established requires an equal number of containers to be unloaded and loaded. When encountering unequal situations, it is necessary to split them into several equally sized task groups for study to ensure the applicability and accuracy of the model. Moreover, this experiment involved three algorithms, and in the future, we will consider introducing more heuristic algorithms to improve the precision and efficiency of problem-solving.
 
